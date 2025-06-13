@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wochenmenü Z109</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 2em auto; line-height: 1.5; }
+    .print-btn { margin: 10px 0; }
+    @media print {
+      .print-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Menü vom <span id="heute"></span></h1>
+  <div id="menü" style="font-size: 1.2em;"></div>
+  <button class="print-btn" onclick="window.print()">Drucken</button>
+
+  <script>
+    const menüs = {
+      "Montag": "Veganes Curry / Geschnetzeltes mit Spätzli",
+      "Dienstag": "Pasta Napoli / Hacktätschli mit Kartoffelpüree",
+      "Mittwoch": "Gemüsewähe / Cordon Bleu mit Pommes",
+      "Donnerstag": "Kichererbseneintopf / Spaghetti Carbonara",
+      "Freitag": "Gemüsesuppe / Fischstäbchen mit Reis"
+    };
+    const tage = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+    const heute = new Date();
+    const tag = tage[heute.getDay()];
+    document.getElementById("heute").innerText = `${tag}, ${heute.toLocaleDateString('de-CH')}`;
+    document.getElementById("menü").innerText = menüs[tag] || "Kein Menü für heute.";
+  </script>
+</body>
+</html>
