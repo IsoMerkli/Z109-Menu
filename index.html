@@ -1,34 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <meta charset="utf-8">
-  <title>Wochenmenü Z109</title>
+  <meta charset="UTF-8">
+  <title>Z109 Tagesmenü</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 2em auto; line-height: 1.5; }
-    .print-btn { margin: 10px 0; }
+    :root {
+      --font-main: 'IBM Plex Sans', sans-serif;
+      --bg: #f5f5f5;
+      --text: #111;
+      --accent: #e60012;
+      --gray: #ccc;
+    }
+    body {
+      font-family: var(--font-main);
+      margin: 0;
+      padding: 2rem;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 600px;
+      margin-inline: auto;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.2rem;
+    }
+    h2 {
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-top: 2rem;
+    }
+    .menu-box {
+      padding: 1rem;
+      background: white;
+      border: 2px solid var(--gray);
+      margin-top: 1rem;
+    }
+    .edit-btn {
+      margin-top: 2rem;
+      background: var(--accent);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .print-btn {
+      margin-top: 1rem;
+      background: black;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    iframe {
+      margin-top: 2rem;
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
     @media print {
-      .print-btn { display: none; }
+      .edit-btn, .print-btn, iframe {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
   <h1>Menü vom <span id="heute"></span></h1>
-  <div id="menü" style="font-size: 1.2em;"></div>
+  <div class="menu-box" id="tagesmenu"></div>
+
   <button class="print-btn" onclick="window.print()">Drucken</button>
+  <button class="edit-btn" onclick="location.href='editor.html'">Menü bearbeiten</button>
+
+  <iframe src="wochenmenu.pdf"></iframe>
 
   <script>
-    const menüs = {
-      "Montag": "Veganes Curry / Geschnetzeltes mit Spätzli",
-      "Dienstag": "Pasta Napoli / Hacktätschli mit Kartoffelpüree",
-      "Mittwoch": "Gemüsewähe / Cordon Bleu mit Pommes",
-      "Donnerstag": "Kichererbseneintopf / Spaghetti Carbonara",
-      "Freitag": "Gemüsesuppe / Fischstäbchen mit Reis"
+    const menus = JSON.parse(localStorage.getItem('wochenmenue')) || {
+      Montag: 'Gemüsecurry / Poulet mit Reis',
+      Dienstag: 'Pasta Napoli / Hackbällchen',
+      Mittwoch: 'Wähe / Cordon Bleu mit Pommes',
+      Donnerstag: 'Eintopf / Spaghetti Bolognese',
+      Freitag: 'Rösti / Fisch mit Tartarsauce'
     };
-    const tage = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+
+    const tage = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
     const heute = new Date();
     const tag = tage[heute.getDay()];
-    document.getElementById("heute").innerText = `${tag}, ${heute.toLocaleDateString('de-CH')}`;
-    document.getElementById("menü").innerText = menüs[tag] || "Kein Menü für heute.";
+
+    document.getElementById('heute').innerText = tag + ', ' + heute.toLocaleDateString('de-CH');
+    document.getElementById('tagesmenu').innerText = menus[tag] || 'Kein Menü für heute.';
   </script>
 </body>
 </html>
